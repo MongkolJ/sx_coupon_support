@@ -97,18 +97,13 @@ class _SearchCouponViewState extends State<SearchCouponView> {
                     value: coupon.value.toStringAsFixed(2),
                   ),
                   _couponDetails(
-                    title: 'มูลค่าคงเหลือ',
-                    value: coupon.remainValue.toStringAsFixed(2),
+                    title: 'Actual',
+                    value: coupon.actualRedeem.toStringAsFixed(2),
                   ),
                   _couponDetails(
                     title: 'มีการ Redeem รึยัง?',
                     value: coupon.isRedeemed ? 'Redeemed' : 'ยังไม่ Redeemed',
                     textColor: coupon.isRedeemed ? Colors.red : Colors.green,
-                  ),
-                  _couponDetails(
-                    title: 'ใช้ในการซื้อสินค้าแล้วรึยัง?',
-                    value: coupon.isUsed ? 'ใช้แล้ว' : 'ยังไม่ได้ใช้',
-                    textColor: coupon.isUsed ? Colors.red : Colors.green,
                   ),
                   _couponDetails(
                     title: 'Transaction Id',
@@ -125,6 +120,10 @@ class _SearchCouponViewState extends State<SearchCouponView> {
                   _couponDetails(
                     title: 'SX Id ของลูกค้า',
                     value: coupon.sxId ?? 'ไม่มีการสะสมแต้ม',
+                  ),
+                  _couponDetails(
+                    title: 'เบอร์โทรของลูกค้า',
+                    value: coupon.tel ?? 'ไม่มีการสะสมแต้ม',
                   ),
                   _couponDetails(
                     title: 'ใช้เมื่อ',

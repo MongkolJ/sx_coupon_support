@@ -5,15 +5,15 @@ class Coupon {
   late CouponType type;
   late bool isChangeable;
   late double value;
-  late double remainValue;
+  late double actualRedeem;
   late bool isRedeemed;
-  late bool isUsed;
 
   String? transactionId;
   String? saleOrderId;
   String? shopName;
   String? shopId;
   String? sxId;
+  String? tel;
   String? useDate;
 
   Coupon.fromJson({required Map<String, dynamic> json}) {
@@ -21,15 +21,15 @@ class Coupon {
     type = json['type'];
     isChangeable = json['isChangeable'];
     value = json['value'];
-    remainValue = json['remainValue'];
+    actualRedeem = json['remainValue'];
     isRedeemed = json['isRedeemed'];
-    isUsed = json['isUsed'];
 
     transactionId = json['transactionId'];
     saleOrderId = json['saleOrderId'];
     shopName = json['shopName'];
     shopId = json['shopId'];
     sxId = json['sxId'];
+    tel = json['tel'];
     useDate = json['useDate'];
   }
 
@@ -38,15 +38,15 @@ class Coupon {
     type = 0;
     isChangeable = false;
     value = 0;
-    remainValue = 0;
+    actualRedeem = 0;
     isRedeemed = false;
-    isUsed = false;
 
     transactionId = '-';
     saleOrderId = '-';
     shopName = '-';
     shopId = '-';
     sxId = '-';
+    tel = '-';
     useDate = '-';
   }
 }
