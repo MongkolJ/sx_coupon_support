@@ -97,7 +97,7 @@ class _SearchCouponViewState extends State<SearchCouponView> {
                     value: coupon.value.toStringAsFixed(2),
                   ),
                   _couponDetails(
-                    title: 'มูลค่าคูปอง',
+                    title: 'มูลค่าคงเหลือ',
                     value: coupon.remainValue.toStringAsFixed(2),
                   ),
                   _couponDetails(
