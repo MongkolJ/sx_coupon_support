@@ -41,13 +41,13 @@ class Coupon {
     actualRedeem = 0;
     isRedeemed = false;
 
-    transactionId = '-';
-    saleOrderId = '-';
-    shopName = '-';
-    shopId = '-';
-    sxId = '-';
-    tel = '-';
-    useDate = '-';
+    transactionId = null;
+    saleOrderId = null;
+    shopName = null;
+    shopId = null;
+    sxId = null;
+    tel = null;
+    useDate = null;
   }
 }
 
