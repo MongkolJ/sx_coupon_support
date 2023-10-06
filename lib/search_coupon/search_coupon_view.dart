@@ -19,7 +19,7 @@ class _SearchCouponViewState extends State<SearchCouponView> {
     return SafeArea(
       child: Scaffold(
         body: Padding(
-          padding: const EdgeInsets.all(24.0),
+          padding: const EdgeInsets.all(16.0),
           child: Column(
             children: [
               _coupon(),
@@ -142,7 +142,7 @@ class _SearchCouponViewState extends State<SearchCouponView> {
     required String title,
     required String value,
     Color textColor = Colors.black,
-    double fontSize = 20,
+    double fontSize = 16,
     FontWeight fontWeight = FontWeight.normal,
   }) {
     return Column(
