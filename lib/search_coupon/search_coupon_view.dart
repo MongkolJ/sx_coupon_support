@@ -54,8 +54,10 @@ class _SearchCouponViewState extends State<SearchCouponView> {
           }
 
           if (snapshot.connectionState != ConnectionState.done) {
-            return const CircularProgressIndicator(
-              color: Colors.grey,
+            return const Center(
+              child: CircularProgressIndicator(
+                color: Colors.grey,
+              ),
             );
           }
 
@@ -90,7 +92,7 @@ class _SearchCouponViewState extends State<SearchCouponView> {
                   ),
                   _couponDetails(
                     title: 'ทอนได้?',
-                    value: coupon.isChangeable ? 'ทอนได้' : 'ทอนไม่ได้',
+                    value: coupon.isChangeable,
                   ),
                   _couponDetails(
                     title: 'มูลค่าคูปอง',
@@ -115,7 +117,7 @@ class _SearchCouponViewState extends State<SearchCouponView> {
                   ),
                   _couponDetails(
                     title: 'ใช้ที่ร้าน',
-                    value: '${coupon.shopId ?? ''} - ${coupon.shopName ?? ''}',
+                    value: coupon.shopId ?? '',
                   ),
                   _couponDetails(
                     title: 'SX Id ของลูกค้า',
