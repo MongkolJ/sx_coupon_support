@@ -102,7 +102,7 @@ class _SearchCouponViewState extends State<SearchCouponView> {
                   ),
                   _couponDetails(
                     title: 'มีการ Redeem รึยัง?',
-                    value: coupon.isRedeemed ? 'Redeemed' : 'ยังไม่ Redeemed',
+                    value: coupon.isRedeemed ? 'Redeemed' : 'ยังไม่ Redeem',
                     textColor: coupon.isRedeemed ? Colors.red : Colors.green,
                   ),
                   _couponDetails(
