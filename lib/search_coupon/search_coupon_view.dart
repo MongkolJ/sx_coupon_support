@@ -64,10 +64,14 @@ class _SearchCouponViewState extends State<SearchCouponView> {
           Coupon coupon = Coupon.defaultValue();
 
           if (snapshot.hasError) {
-            return const Center(
-              child: Text(
-                'ไม่พบหมายเลขคูปองที่ระบุในระบบ',
-              ),
+            String text = '';
+            if (snapshot.error.runtimeType == Exception) {
+              text = 'ไม่พบรหัสคูปองนี้ในระบบ...';
+            } else {
+              text = '${snapshot.error.toString()}: ${snapshot.error.runtimeType}';
+            }
+            return Center(
+              child: Text(text),
             );
           }
 
