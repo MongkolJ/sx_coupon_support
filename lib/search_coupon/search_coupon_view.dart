@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:simple_barcode_scanner/simple_barcode_scanner.dart';
 import 'package:sx_coupon_support/search_coupon/coupon.dart';
 import 'package:sx_coupon_support/search_coupon/search_coupon_view_model.dart';
 
@@ -22,6 +23,7 @@ class _SearchCouponViewState extends State<SearchCouponView> {
           child: Column(
             children: [
               _coupon(),
+              _buffer(),
               _searchRow(),
             ],
           ),
@@ -59,65 +61,78 @@ class _SearchCouponViewState extends State<SearchCouponView> {
 
           Coupon coupon = Coupon.defaultValue();
 
+          if (snapshot.hasError) {
+            return const Center(
+              child: Text(
+                'ไม่พบหมายเลขคูปองที่ระบุในระบบ',
+              ),
+            );
+          }
+
           if (snapshot.hasData) {
             coupon = snapshot.data!;
           }
 
-          return Column(
-            children: [
-              _couponDetails(
-                title: 'Coupon ID',
-                value: coupon.id,
-                fontWeight: FontWeight.bold,
-                fontSize: 22,
+          return SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: [
+                  _couponDetails(
+                    title: 'Coupon ID',
+                    value: coupon.id,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 22,
+                  ),
+                  _couponDetails(
+                    title: 'Coupon Type',
+                    value: coupon.type == 0 ? 'กระดาษ' : 'ดิจิตอล',
+                  ),
+                  _couponDetails(
+                    title: 'ทอนได้?',
+                    value: coupon.isChangeable ? 'ทอนได้' : 'ทอนไม่ได้',
+                  ),
+                  _couponDetails(
+                    title: 'มูลค่าคูปอง',
+                    value: coupon.value.toStringAsFixed(2),
+                  ),
+                  _couponDetails(
+                    title: 'มูลค่าคูปอง',
+                    value: coupon.remainValue.toStringAsFixed(2),
+                  ),
+                  _couponDetails(
+                    title: 'มีการ Redeem รึยัง?',
+                    value: coupon.isRedeemed ? 'Redeemed' : 'ยังไม่ Redeemed',
+                    textColor: coupon.isRedeemed ? Colors.red : Colors.green,
+                  ),
+                  _couponDetails(
+                    title: 'ใช้ในการซื้อสินค้าแล้วรึยัง?',
+                    value: coupon.isUsed ? 'ใช้แล้ว' : 'ยังไม่ได้ใช้',
+                    textColor: coupon.isUsed ? Colors.red : Colors.green,
+                  ),
+                  _couponDetails(
+                    title: 'Transaction Id',
+                    value: coupon.transactionId ?? 'ยังไม่มีการ Redeem',
+                  ),
+                  _couponDetails(
+                    title: 'Sale Order Id',
+                    value: coupon.saleOrderId ?? 'ยังไม่มีการนำไปชำระเงิน',
+                  ),
+                  _couponDetails(
+                    title: 'ใช้ที่ร้าน',
+                    value: '${coupon.shopId ?? ''} - ${coupon.shopName ?? ''}',
+                  ),
+                  _couponDetails(
+                    title: 'SX Id ของลูกค้า',
+                    value: coupon.sxId ?? 'ไม่มีการสะสมแต้ม',
+                  ),
+                  _couponDetails(
+                    title: 'ใช้เมื่อ',
+                    value: coupon.useDate ?? 'ยังไม่มีการใช้งาน',
+                  ),
+                ],
               ),
-              _couponDetails(
-                title: 'Coupon Type',
-                value: coupon.type == 0 ? 'กระดาษ' : 'ดิจิตอล',
-              ),
-              _couponDetails(
-                title: 'ทอนได้?',
-                value: coupon.isChangeable ? 'ทอนได้' : 'ทอนไม่ได้',
-              ),
-              _couponDetails(
-                title: 'มูลค่าคูปอง',
-                value: coupon.value.toStringAsFixed(2),
-              ),
-              _couponDetails(
-                title: 'มูลค่าคูปอง',
-                value: coupon.remainValue.toStringAsFixed(2),
-              ),
-              _couponDetails(
-                title: 'มีการ Redeem รึยัง?',
-                value: coupon.isRedeemed ? 'Redeemed' : 'ยังไม่ Redeemed',
-                textColor: coupon.isRedeemed ? Colors.red : Colors.green,
-              ),
-              _couponDetails(
-                title: 'ใช้ในการซื้อสินค้าแล้วรึยัง?',
-                value: coupon.isUsed ? 'ใช้แล้ว' : 'ยังไม่ได้ใช้',
-                textColor: coupon.isUsed ? Colors.red : Colors.green,
-              ),
-              _couponDetails(
-                title: 'Transaction Id',
-                value: coupon.transactionId ?? 'ยังไม่มีการ Redeem',
-              ),
-              _couponDetails(
-                title: 'Sale Order Id',
-                value: coupon.saleOrderId ?? 'ยังไม่มีการนำไปชำระเงิน',
-              ),
-              _couponDetails(
-                title: 'ใช้ที่ร้าน',
-                value: '${coupon.shopId ?? ''} - ${coupon.shopName ?? ''}',
-              ),
-              _couponDetails(
-                title: 'SX Id ของลูกค้า',
-                value: coupon.sxId ?? 'ไม่มีการสะสมแต้ม',
-              ),
-              _couponDetails(
-                title: 'ใช้เมื่อ',
-                value: coupon.useDate ?? 'ยังไม่มีการใช้งาน',
-              ),
-            ],
+            ),
           );
         },
       ),
@@ -180,6 +195,10 @@ class _SearchCouponViewState extends State<SearchCouponView> {
                   ),
                 ),
               ),
+              onEditingComplete: () async {
+                _viewModel.fetchCoupon(couponId: _controller.text);
+                setState(() {});
+              },
             ),
           ),
           _buffer(),
@@ -187,7 +206,19 @@ class _SearchCouponViewState extends State<SearchCouponView> {
             height: 60,
             width: 60,
             child: IconButton(
-              onPressed: () async {},
+              onPressed: () async {
+                var res = await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const SimpleBarcodeScannerPage(),
+                    ));
+                setState(() {
+                  if (res is String) {
+                    _controller.text = res;
+                    _viewModel.fetchCoupon(couponId: _controller.text);
+                  }
+                });
+              },
               icon: const Icon(
                 Icons.qr_code,
                 color: Colors.grey,
