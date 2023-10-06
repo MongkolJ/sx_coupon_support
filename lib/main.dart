@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sx_coupon_support/accounts/account_view.dart';
 import 'package:sx_coupon_support/map.dart';
 import 'package:sx_coupon_support/search_coupon/search_coupon_view.dart';
 
@@ -33,7 +34,7 @@ class MyApp extends StatelessWidget {
             children: [
               SearchCouponView(),
               MapView(),
-              SearchCouponView(),
+              AccountsView(),
             ],
           ),
         ),
